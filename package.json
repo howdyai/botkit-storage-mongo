@@ -1,0 +1,22 @@
+{
+  "name": "botkit-storage-mongo",
+  "version": "1.0.0",
+  "description": "A MongoDB storage driver for Botkit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/howdyai/botkit-storage-mongo.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit-storage-mongo/issues"
+  },
+  "homepage": "https://github.com/howdyai/botkit-storage-mongo#readme",
+  "dependencies": {
+    "monk": "^1.0.1"
+  }
+}
