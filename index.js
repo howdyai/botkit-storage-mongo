@@ -1,0 +1,82 @@
+var db = require('monk');
+
+
+/**
+ * botkit-storage-mongo - MongoDB driver for Botkit
+ *
+ * @param  {Object} config
+ * @return {Object}
+ */
+module.exports = function(config) {
+    /**
+     * Example mongoUri is:
+     * 'mongodb://test:test@ds037145.mongolab.com:37145/slack-bot-test'
+     * or
+     * 'localhost/mydb,192.168.1.1'
+     */
+    if (!config || !config.mongoUri)
+        throw new Error('Need to provide mongo address.');
+
+    var Teams = db(config.mongo_uri).get('teams'),
+        Users = db(config.mongo_uri).get('users'),
+        Channels = db(config.mongo_uri).get('channels');
+
+    var unwrapFromList = function(cb) {
+        return function(err, data) {
+            cb(err, err ? data : data[0]);
+        };
+    };
+
+    var storage = {
+        teams: {
+            get: function(id, cb) {
+                Teams.findById(id, unwrapFromList(cb));
+            },
+            save: function(data, cb) {
+                Teams.findAndModify({
+                    id: data.id
+                }, data, {
+                    upsert: true,
+                    new: true
+                }, cb);
+            },
+            all: function(cb) {
+                Teams.find({}, cb);
+            }
+        },
+        users: {
+            get: function(id, cb) {
+                Users.findById(id, unwrapFromList(cb));
+            },
+            save: function(data, cb) {
+                Users.findAndModify({
+                    id: data.id
+                }, data, {
+                    upsert: true,
+                    new: true
+                }, cb);
+            },
+            all: function(cb) {
+                Users.find({}, cb);
+            }
+        },
+        channels: {
+            get: function(id, cb) {
+                Channels.findById(id, unwrapFromList(cb));
+            },
+            save: function(data, cb) {
+                Channels.findAndModify({
+                    id: data.id
+                }, data, {
+                    upsert: true,
+                    new: true
+                }, cb);
+            },
+            all: function(cb) {
+                Channels.find({}, cb);
+            }
+        }
+    };
+
+    return storage;
+};
