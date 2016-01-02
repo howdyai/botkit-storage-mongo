@@ -23,7 +23,7 @@ module.exports = function(config) {
 
     var unwrapFromList = function(cb) {
         return function(err, data) {
-            cb(err, err ? data : data[0]);
+            cb(err, err ? null : data[0]);
         };
     };
 
