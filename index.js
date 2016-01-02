@@ -17,9 +17,9 @@ module.exports = function(config) {
     if (!config || !config.mongoUri)
         throw new Error('Need to provide mongo address.');
 
-    var Teams = db(config.mongo_uri).get('teams'),
-        Users = db(config.mongo_uri).get('users'),
-        Channels = db(config.mongo_uri).get('channels');
+    var Teams = db(config.mongoUri).get('teams'),
+        Users = db(config.mongoUri).get('users'),
+        Channels = db(config.mongoUri).get('channels');
 
     var unwrapFromList = function(cb) {
         return function(err, data) {
