@@ -26,7 +26,7 @@ describe('Users', function() {
         mongodbDriver.users.save(testObject, function(err, data) {
             (err === null).should.be.true;
 
-            mongodbDriver.users.get(data._id, function(err, data) {
+            mongodbDriver.users.get(testObject.id, function(err, data) {
                 (err === null).should.be.true;
 
                 data.foo.should.equal(testObject.foo);
@@ -70,7 +70,7 @@ describe('Channels', function() {
         mongodbDriver.channels.save(testObject, function(err, data) {
             (err === null).should.be.true;
 
-            mongodbDriver.channels.get(data._id, function(err, data) {
+            mongodbDriver.channels.get(testObject.id, function(err, data) {
                 (err === null).should.be.true;
 
                 data.foo.should.equal(testObject.foo);
@@ -114,7 +114,7 @@ describe('Teams', function() {
         mongodbDriver.teams.save(testObject, function(err, data) {
             (err === null).should.be.true;
 
-            mongodbDriver.teams.get(data._id, function(err, data) {
+            mongodbDriver.teams.get(testObject.id, function(err, data) {
                 (err === null).should.be.true;
 
                 data.foo.should.equal(testObject.foo);
