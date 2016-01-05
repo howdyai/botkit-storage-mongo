@@ -31,7 +31,7 @@ module.exports = function(config) {
     var storage = {
         teams: {
             get: function(id, cb) {
-                Teams.findById(id, unwrapFromList(cb));
+                Teams.findOne({id: id}, unwrapFromList(cb));
             },
             save: function(data, cb) {
                 Teams.findAndModify({
@@ -47,7 +47,7 @@ module.exports = function(config) {
         },
         users: {
             get: function(id, cb) {
-                Users.findById(id, unwrapFromList(cb));
+                Users.findOne({id: id}, unwrapFromList(cb));
             },
             save: function(data, cb) {
                 Users.findAndModify({
@@ -63,7 +63,7 @@ module.exports = function(config) {
         },
         channels: {
             get: function(id, cb) {
-                Channels.findById(id, unwrapFromList(cb));
+                Channels.findOne({id: id}, unwrapFromList(cb));
             },
             save: function(data, cb) {
                 Channels.findAndModify({
