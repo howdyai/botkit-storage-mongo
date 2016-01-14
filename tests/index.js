@@ -1,146 +1,100 @@
-var should = require('should');
+var should = require('should'),
+    sinon = require('sinon'),
+    proxyquire = require('proxyquire').noCallThru();
 
-var testObject = {
-        id: 'test1',
-        foo: 'bar0'
-    },
-    testObject2 = {
-        id: 'test2',
-        foo: 'bar1'
-    };
+require('should-sinon');
 
-var mongodbDriver = require('../src/index.js')({
-    mongoUri: 'mongodb://127.0.0.1:27017/tests'
-});
+describe('Mongo', function() {
+    var monkMock,
+        collectionMock,
+        collectionObj,
+        Storage,
+        config;
 
-describe('Users', function() {
-    it('should be created', function(done) {
-        mongodbDriver.users.save(testObject, function(err) {
-            (err === null).should.be.true;
+    beforeEach(function() {
+        config = {mongoUri: 'http://someurl.somewhere.com'};
 
-            done();
+        collectionObj = {
+            find: sinon.stub(),
+            findOne: sinon.stub(),
+            findAndModify: sinon.stub()
+        };
+
+        collectionMock = {
+            get: sinon.stub().returns(collectionObj)
+        };
+
+        monkMock = sinon.stub().returns(collectionMock);
+
+        Storage = proxyquire('../src/index', {monk: monkMock});
+    });
+
+    describe('Initialization', function() {
+        it('should throw an error if config is missing', function() {
+            Storage.should.throw('Need to provide mongo address.');
+        });
+
+        it('should throw an error if mongoUri is missing', function() {
+            (function() {Storage({});}).should.throw('Need to provide mongo address.');
+        });
+
+        it('should initialize monk with mongoUri', function() {
+            Storage(config);
+            monkMock.callCount.should.equal(3);
+            monkMock.args[0][0].should.equal(config.mongoUri);
+            monkMock.args[1][0].should.equal(config.mongoUri);
+            monkMock.args[2][0].should.equal(config.mongoUri);
         });
     });
 
-    it('should get a user', function(done) {
-        mongodbDriver.users.save(testObject, function(err, data) {
-            (err === null).should.be.true;
+    ['teams', 'channels', 'users'].forEach(function(method) {
+        describe(method + '.get', function() {
+            it('should call callback with error if error occurs', function() {
+                var cb = sinon.stub(),
+                    err = new Error('OOPS!');
 
-            mongodbDriver.users.get(testObject.id, function(err, data) {
-                (err === null).should.be.true;
+                collectionObj.findOne.yields(err);
 
-                data.foo.should.equal(testObject.foo);
-                done();
+                Storage(config)[method].get('walterwhite', cb);
+                collectionObj.findOne.should.be.calledWith({id:'walterwhite'});
+                cb.should.be.calledWith(err);
+            });
+
+            it('should call callback wih data', function() {
+                var cb = sinon.stub(),
+                    data = {};
+
+                collectionObj.findOne.yields(null, data);
+
+                Storage(config)[method].get('walterwhite', cb);
+                collectionObj.findOne.should.be.calledWith({id:'walterwhite'});
+                cb.should.be.calledWith(null, data);
             });
         });
-    });
 
-    it('should get multiple users', function(done) {
-        var first, second;
-        mongodbDriver.users.save(testObject, function(err, data) {
-            (err === null).should.be.true;
-            first = data;
+        describe(method + '.save', function() {
 
-            mongodbDriver.users.save(testObject2, function(err, data) {
-                (err === null).should.be.true;
+            beforeEach(function() {
 
-                second = data;
-
-                mongodbDriver.users.all(function(err, data) {
-                    (err === null).should.be.true;
-
-                    data.should.have.length(2);
-                    done();
-                })
             });
-        })
-    });
-});
 
-describe('Channels', function() {
-    it('should be created', function(done) {
-        mongodbDriver.users.save(testObject, function(err) {
-            (err === null).should.be.true;
+            it('should call findAndModify', function() {
+                var data = {id: 'walterwhite'},
+                    cb = sinon.stub();
 
-            done();
-        });
-    });
-
-    it('should get a channel', function(done) {
-        mongodbDriver.channels.save(testObject, function(err, data) {
-            (err === null).should.be.true;
-
-            mongodbDriver.channels.get(testObject.id, function(err, data) {
-                (err === null).should.be.true;
-
-                data.foo.should.equal(testObject.foo);
-                done();
+                Storage(config)[method].save(data, cb);
+                collectionObj.findAndModify.should.be.calledWith({id:'walterwhite'}, data, {upsert: true, 'new': true}, cb);
             });
         });
-    });
 
-    it('should get multiple channels', function(done) {
-        var first, second;
-        mongodbDriver.channels.save(testObject, function(err, data) {
-            (err === null).should.be.true;
-            first = data;
+        describe(method + '.all', function() {
 
-            mongodbDriver.channels.save(testObject2, function(err, data) {
-                (err === null).should.be.true;
+            it('should call find', function() {
+                var cb = sinon.stub();
 
-                second = data;
-
-                mongodbDriver.users.all(function(err, data) {
-                    (err === null).should.be.true;
-
-                    data.should.have.length(2);
-                    done();
-                })
-            });
-        })
-    });
-});
-
-describe('Teams', function() {
-    it('should be created', function(done) {
-        mongodbDriver.teams.save(testObject, function(err) {
-            (err === null).should.be.true;
-
-            done();
-        });
-    });
-
-    it('should get a team', function(done) {
-        mongodbDriver.teams.save(testObject, function(err, data) {
-            (err === null).should.be.true;
-
-            mongodbDriver.teams.get(testObject.id, function(err, data) {
-                (err === null).should.be.true;
-
-                data.foo.should.equal(testObject.foo);
-                done();
+                Storage(config)[method].all(cb);
+                collectionObj.find.should.be.calledWith({}, cb);
             });
         });
-    });
-
-    it('should get multiple teams', function(done) {
-        var first, second;
-
-        mongodbDriver.teams.save(testObject, function(err, data) {
-            (err === null).should.be.true;
-            first = data;
-
-            mongodbDriver.teams.save(testObject2, function(err, data2) {
-                (err === null).should.be.true;
-                second = data2;
-
-                mongodbDriver.teams.all(function(err, data) {
-                    (err === null).should.be.true;
-
-                    data.should.have.length(2);
-                    done();
-                })
-            });
-        })
     });
 });
