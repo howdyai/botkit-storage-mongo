@@ -5,12 +5,18 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "mocha tests/*.js"
+    "pretest": "jscs ./",
+    "test": "istanbul cover --report lcov --dir coverage/ _mocha ./tests --grep ./tests/*.js -- --colors"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/howdyai/botkit-storage-mongo.git"
   },
+  "keywords": [
+    "botkit",
+    "mongodb",
+    "slack"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -21,7 +27,12 @@
     "monk": "^1.0.1"
   },
   "devDependencies": {
+    "istanbul": "^0.4.2",
+    "jscs": "^2.8.0",
     "mocha": "^2.3.4",
-    "should": "^8.0.2"
+    "proxyquire": "^1.7.3",
+    "should": "^8.1.1",
+    "should-sinon": "0.0.3",
+    "sinon": "^1.17.2"
   }
 }
