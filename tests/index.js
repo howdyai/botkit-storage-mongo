@@ -56,7 +56,7 @@ describe('Mongo', function() {
                 collectionObj.findOne.yields(err);
 
                 Storage(config)[method].get('walterwhite', cb);
-                collectionObj.findOne.should.be.calledWith({id:'walterwhite'});
+                collectionObj.findOne.should.be.calledWith({id: 'walterwhite'});
                 cb.should.be.calledWith(err);
             });
 
@@ -67,23 +67,24 @@ describe('Mongo', function() {
                 collectionObj.findOne.yields(null, data);
 
                 Storage(config)[method].get('walterwhite', cb);
-                collectionObj.findOne.should.be.calledWith({id:'walterwhite'});
+                collectionObj.findOne.should.be.calledWith({id: 'walterwhite'});
                 cb.should.be.calledWith(null, data);
             });
         });
 
         describe(method + '.save', function() {
 
-            beforeEach(function() {
-
-            });
-
             it('should call findAndModify', function() {
                 var data = {id: 'walterwhite'},
                     cb = sinon.stub();
 
                 Storage(config)[method].save(data, cb);
-                collectionObj.findAndModify.should.be.calledWith({id:'walterwhite'}, data, {upsert: true, 'new': true}, cb);
+                collectionObj.findAndModify.should.be.calledWith(
+                    {id: 'walterwhite'},
+                    data,
+                    {upsert: true, 'new': true},
+                    cb
+                );
             });
         });
 
