@@ -1,11 +1,10 @@
-var db = require('monk');
-
+var monk = require('monk');
 
 /**
  * botkit-storage-mongo - MongoDB driver for Botkit
  *
- * @param  {Object} config
- * @return {Object}
+ * @param  {Object} config Must contain a mongoUri property
+ * @return {Object} A storage object conforming to the Botkit storage interface
  */
 module.exports = function(config) {
     /**
@@ -14,70 +13,44 @@ module.exports = function(config) {
      * or
      * 'localhost/mydb,192.168.1.1'
      */
-    if (!config || !config.mongoUri)
+    if (!config || !config.mongoUri) {
         throw new Error('Need to provide mongo address.');
+    }
 
-    var Teams = db(config.mongoUri).get('teams'),
-        Users = db(config.mongoUri).get('users'),
-        Channels = db(config.mongoUri).get('channels');
+    var db = monk(config.mongoUri),
+        storage = {};
 
-    var unwrapFromList = function(cb) {
-        return function(err, data) {
-            if (err) return cb(err);
-            cb(null, data);
-        };
-    };
-
-    var storage = {
-        teams: {
-            get: function(id, cb) {
-                Teams.findOne({id: id}, unwrapFromList(cb));
-            },
-            save: function(data, cb) {
-                Teams.findAndModify({
-                    id: data.id
-                }, data, {
-                    upsert: true,
-                    new: true
-                }, cb);
-            },
-            all: function(cb) {
-                Teams.find({}, cb);
-            }
-        },
-        users: {
-            get: function(id, cb) {
-                Users.findOne({id: id}, unwrapFromList(cb));
-            },
-            save: function(data, cb) {
-                Users.findAndModify({
-                    id: data.id
-                }, data, {
-                    upsert: true,
-                    new: true
-                }, cb);
-            },
-            all: function(cb) {
-                Users.find({}, cb);
-            }
-        },
-        channels: {
-            get: function(id, cb) {
-                Channels.findOne({id: id}, unwrapFromList(cb));
-            },
-            save: function(data, cb) {
-                Channels.findAndModify({
-                    id: data.id
-                }, data, {
-                    upsert: true,
-                    new: true
-                }, cb);
-            },
-            all: function(cb) {
-                Channels.find({}, cb);
-            }
-        }
-    };
+    ['teams', 'channels', 'users'].forEach(function(zone) {
+        storage[zone] = getStorage(db, zone);
+    });
 
     return storage;
 };
+
+/**
+ * Creates a storage object for a given "zone", i.e, teams, channels, or users
+ *
+ * @param {Object} db A reference to the MongoDB instance
+ * @param {String} zone The table to query in the database
+ * @returns {{get: get, save: save, all: all}}
+ */
+function getStorage(db, zone) {
+    var table = db.get(zone);
+
+    return {
+        get: function(id, cb) {
+            table.findOne({id: id}, cb);
+        },
+        save: function(data, cb) {
+            table.findAndModify({
+                id: data.id
+            }, data, {
+                upsert: true,
+                new: true
+            }, cb);
+        },
+        all: function(cb) {
+            table.find({}, cb);
+        }
+    };
+}

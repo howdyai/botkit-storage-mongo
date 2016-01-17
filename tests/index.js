@@ -40,35 +40,18 @@ describe('Mongo', function() {
 
         it('should initialize monk with mongoUri', function() {
             Storage(config);
-            monkMock.callCount.should.equal(3);
+            monkMock.callCount.should.equal(1);
             monkMock.args[0][0].should.equal(config.mongoUri);
-            monkMock.args[1][0].should.equal(config.mongoUri);
-            monkMock.args[2][0].should.equal(config.mongoUri);
         });
     });
 
     ['teams', 'channels', 'users'].forEach(function(method) {
         describe(method + '.get', function() {
-            it('should call callback with error if error occurs', function() {
-                var cb = sinon.stub(),
-                    err = new Error('OOPS!');
-
-                collectionObj.findOne.yields(err);
+            it('should call findOne with callback', function() {
+                var cb = sinon.stub();
 
                 Storage(config)[method].get('walterwhite', cb);
-                collectionObj.findOne.should.be.calledWith({id: 'walterwhite'});
-                cb.should.be.calledWith(err);
-            });
-
-            it('should call callback wih data', function() {
-                var cb = sinon.stub(),
-                    data = {};
-
-                collectionObj.findOne.yields(null, data);
-
-                Storage(config)[method].get('walterwhite', cb);
-                collectionObj.findOne.should.be.calledWith({id: 'walterwhite'});
-                cb.should.be.calledWith(null, data);
+                collectionObj.findOne.should.be.calledWith({id: 'walterwhite'}, cb);
             });
         });
 
