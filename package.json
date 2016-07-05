@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/howdyai/botkit-storage-mongo#readme",
   "dependencies": {
-    "monk": "^1.0.1"
+    "monk": "^2.1.0"
   },
   "devDependencies": {
     "istanbul": "^0.4.2",
