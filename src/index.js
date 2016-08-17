@@ -20,7 +20,13 @@ module.exports = function(config) {
     var db = monk(config.mongoUri),
         storage = {};
 
-    ['teams', 'channels', 'users'].forEach(function(zone) {
+    var tables = ['teams', 'channels', 'users'];
+    // if config.tables, add to the default tables
+    config.tables && config.tables.forEach(function(table) {
+      if (typeof table === 'string') tables.push(table);
+    });
+
+    tables.forEach(function(zone) {
         storage[zone] = getStorage(db, zone);
     });
 
