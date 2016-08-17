@@ -11,7 +11,7 @@ Make sure everything you store has an `id` property, that's what you'll use to l
 
 ```
 var Botkit = require('botkit'),
-    mongoStorage = require('botkit-storage-mongo')({mongoUri: '...'}),
+    mongoStorage = require('botkit-storage-mongo')({mongoUri: '...', tables: ['list', 'of', 'tables', 'to', 'add']}),
     controller = Botkit.slackbot({
         storage: mongoStorage
     });
