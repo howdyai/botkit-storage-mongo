@@ -32,7 +32,7 @@ module.exports = function(config) {
  *
  * @param {Object} db A reference to the MongoDB instance
  * @param {String} zone The table to query in the database
- * @returns {{get: get, save: save, all: all}}
+ * @returns {{get: get, save: save, all: all, find: find}}
  */
 function getStorage(db, zone) {
     var table = db.get(zone);
@@ -51,6 +51,9 @@ function getStorage(db, zone) {
         },
         all: function(cb) {
             table.find({}, cb);
+        },
+        find: function(data, cb){
+            table.find(data, cb);
         }
     };
 }
