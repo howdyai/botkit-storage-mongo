@@ -17,7 +17,7 @@ module.exports = function(config) {
         throw new Error('Need to provide mongo address.');
     }
 
-    var db = monk(config.mongoUri),
+    var db = config.mongoOptions ? monk(config.mongoUri, config.mongoOptions) : monk(config.mongoUri),
         storage = {};
 
     ['teams', 'channels', 'users'].forEach(function(zone) {
