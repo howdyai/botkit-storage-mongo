@@ -3,7 +3,7 @@ var monk = require('monk');
 /**
  * botkit-storage-mongo - MongoDB driver for Botkit
  *
- * @param  {Object} config Must contain a mongoUri property
+ * @param  {Object} config Must contain a mongoUri property and May contain a mongoOptions object containing mongo options (auth,db,server,...).
  * @return {Object} A storage object conforming to the Botkit storage interface
  */
 module.exports = function(config) {
@@ -17,8 +17,9 @@ module.exports = function(config) {
         throw new Error('Need to provide mongo address.');
     }
 
-    var db = config.mongoOptions ? monk(config.mongoUri, config.mongoOptions) : monk(config.mongoUri),
-        storage = {};
+    var db = monk(config.mongoUri, config.mongoOptions);
+
+    var storage = {};
 
     ['teams', 'channels', 'users'].forEach(function(zone) {
         storage[zone] = getStorage(db, zone);
