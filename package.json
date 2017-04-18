@@ -24,15 +24,15 @@
   },
   "homepage": "https://github.com/howdyai/botkit-storage-mongo#readme",
   "dependencies": {
-    "monk": "^2.1.0"
+    "monk": "^4.0.0"
   },
   "devDependencies": {
     "istanbul": "^0.4.2",
-    "jscs": "^2.8.0",
-    "mocha": "^2.3.4",
+    "jscs": "^3.0.7",
+    "mocha": "^3.2.0",
     "proxyquire": "^1.7.3",
-    "should": "^8.1.1",
-    "should-sinon": "0.0.3",
-    "sinon": "^1.17.2"
+    "should": "^11.2.1",
+    "should-sinon": "0.0.5",
+    "sinon": "^2.1.0"
   }
 }
