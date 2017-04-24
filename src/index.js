@@ -47,10 +47,10 @@ function getStorage(db, zone) {
 
     return {
         get: function(id, cb) {
-            table.findOne({id: id}, cb);
+            return table.findOne({id: id}, cb);
         },
         save: function(data, cb) {
-            table.findAndModify({
+            return table.findAndModify({
                 id: data.id
             }, data, {
                 upsert: true,
@@ -58,10 +58,10 @@ function getStorage(db, zone) {
             }, cb);
         },
         all: function(cb) {
-            table.find({}, cb);
+            return table.find({}, cb);
         },
         find: function(data, cb) {
-            table.find(data, cb);
+            return table.find(data, cb);
         }
     };
 }

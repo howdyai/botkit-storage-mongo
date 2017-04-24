@@ -52,3 +52,13 @@ storage.users.find({team_id: team_id}, function(error, users){
     // do something with users
 });
 ```
+
+As of 1.0.6, all functions also support Promise syntax:
+
+```
+storage.users.all().then(function(list_of_users) {
+
+  // do something
+
+});
+```
