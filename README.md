@@ -21,6 +21,22 @@ var Botkit = require('botkit'),
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 controller.storage.teams.save(beans);
-beans = controller.storage.teams.get('cool');
+controller.storage.teams.get('cool', function(error, beans){
+    // do something with beans
+});
 
+```
+
+You can also get all entries from a table or find a selected set depending on a parameters.
+
+```
+storage.users.all(function(error, users){
+    // do something with users
+});
+```
+
+```
+storage.users.find({team_id: team_id}, function(error, users){
+    // do something with users
+});
 ```
