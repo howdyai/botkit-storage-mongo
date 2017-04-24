@@ -4,14 +4,14 @@ A Mongo storage module for Botkit.
 
 ## Usage
 
-Just require `botkit-storage-mongo` and pass it a config with a `mongoUri` option.
+Just require `botkit-storage-mongo` and pass it a config with a `mongoUri` option. In addition, you may pass a `tables` parameter, which will create methods for accessing additional tables (other than user, channel and team) in your Mongo database.
 Then pass the returned storage when creating your Botkit controller. Botkit will do the rest.
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
 ```
 var Botkit = require('botkit'),
-    mongoStorage = require('botkit-storage-mongo')({mongoUri: '...', tables: ['list', 'of', 'tables', 'to', 'add']}),
+    mongoStorage = require('botkit-storage-mongo')({mongoUri: '...', tables: ['optional','list', 'of', 'custom','tables', 'to', 'add']}),
     controller = Botkit.slackbot({
         storage: mongoStorage
     });
