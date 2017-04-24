@@ -3,7 +3,8 @@ var monk = require('monk');
 /**
  * botkit-storage-mongo - MongoDB driver for Botkit
  *
- * @param  {Object} config Must contain a mongoUri property and May contain a mongoOptions object containing mongo options (auth,db,server,...).
+ * @param  {Object} config Must contain a mongoUri property and May contain a mongoOptions
+ *  object containing mongo options (auth,db,server,...).
  * @return {Object} A storage object conforming to the Botkit storage interface
  */
 module.exports = function(config) {
@@ -24,7 +25,7 @@ module.exports = function(config) {
     var tables = ['teams', 'channels', 'users'];
     // if config.tables, add to the default tables
     config.tables && config.tables.forEach(function(table) {
-      if (typeof table === 'string') tables.push(table);
+        if (typeof table === 'string') tables.push(table);
     });
 
     tables.forEach(function(zone) {
@@ -59,7 +60,7 @@ function getStorage(db, zone) {
         all: function(cb) {
             table.find({}, cb);
         },
-        find: function(data, cb){
+        find: function(data, cb) {
             table.find(data, cb);
         }
     };
