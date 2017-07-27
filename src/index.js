@@ -50,11 +50,11 @@ function getStorage(db, zone) {
             return table.findOne({id: id}, cb);
         },
         save: function(data, cb) {
-            return table.findAndModify({
+            return table.findOneAndUpdate({
                 id: data.id
             }, data, {
                 upsert: true,
-                new: true
+                returnNewDocument: true
             }, cb);
         },
         all: function(cb) {
