@@ -20,6 +20,10 @@ module.exports = function(config) {
 
     var db = monk(config.mongoUri, config.mongoOptions);
 
+    db.catch(function(err) {
+      throw new Error(err)
+    });
+
     var storage = {};
 
     var tables = ['teams', 'channels', 'users'];
