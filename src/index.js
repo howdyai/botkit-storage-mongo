@@ -21,7 +21,7 @@ module.exports = function(config) {
     var db = monk(config.mongoUri, config.mongoOptions);
 
     db.catch(function(err) {
-      throw new Error(err)
+        throw new Error(err);
     });
 
     var storage = {};
@@ -66,6 +66,9 @@ function getStorage(db, zone) {
         },
         find: function(data, cb) {
             return table.find(data, cb);
+        },
+        delete: function(id, cb) {
+            return table.findOneAndDelete({id: id}, cb);
         }
     };
 }
