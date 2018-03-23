@@ -67,8 +67,8 @@ function getStorage(db, zone) {
         find: function(data, cb) {
             return table.find(data, cb);
         },
-        delete: function(id, cb) {
-            return table.findOneAndDelete({id: id}, cb);
+        delete: function(data, cb) {
+            return table.findOneAndDelete(data, cb);
         }
     };
 }
