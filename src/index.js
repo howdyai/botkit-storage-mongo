@@ -10,7 +10,7 @@ var monk = require('monk');
 module.exports = function(config) {
     /**
      * Example mongoUri is:
-     * 'mongodb://test:test@ds037145.mongolab.com:37145/slack-bot-test'
+     * 'mongodb://user:pass@host:port/database'
      * or
      * 'localhost/mydb,192.168.1.1'
      */
