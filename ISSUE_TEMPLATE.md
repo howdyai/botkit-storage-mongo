@@ -5,6 +5,7 @@ to see if a similar issue has already been submitted.
 
 - Version of Botkit:
 - Operation System:
+- Node Version:
 
 ## Expected Behavior
 
