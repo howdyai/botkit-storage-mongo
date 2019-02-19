@@ -3,7 +3,8 @@ to see if a similar issue has already been submitted.
 
 ## Specifications
 
-...
+- Version of Botkit:
+- Operation System:
 
 ## Expected Behavior
 
