@@ -11,7 +11,7 @@ system for storing information about a `user`, a `channel`, or a `team`.
 This project is an extension to [Botkit Core](https://github.com/howdyai/botkit),
 a richly featured developer toolkit for building bots and conversational apps.
 
-This module conforms to [Botkit's storage plugin convention](https://github.com/howdyai/botkit/blob/master/docs/storage.md).
+This module conforms to [Botkit's storage plugin convention](https://github.com/howdyai/botkit-docs/blob/master/docs/storage.md).
 
 
 ## Usage
