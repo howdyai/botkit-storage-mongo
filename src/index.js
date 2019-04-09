@@ -64,8 +64,14 @@ function getStorage(db, zone) {
         all: function(cb) {
             return table.find({}, cb);
         },
-        find: function(data, cb) {
-            return table.find(data, cb);
+        find: function(data, opts, cb) {
+            // keep things backwards compatible with the previous API signature
+            // where the consumer only passes query data and a callback
+            if (typeof opts === 'function') {
+                return table.find(data, opts);
+            }
+
+            return table.find(data, opts, cb);
         },
         delete: function(id, cb) {
             return table.findOneAndDelete({id: id}, cb);
