@@ -5,6 +5,8 @@
 [![npm](https://img.shields.io/npm/l/botkit-storage-mongo.svg)](https://spdx.org/licenses/MIT)
 [![bitHound Overall Score](https://www.bithound.io/github/howdyai/botkit-storage-mongo/badges/score.svg)](https://www.bithound.io/github/howdyai/botkit-storage-mongo)
 
+## This module works with [the legacy version of Botkit](https://github.com/howdyai/botkit/tree/legacy#readme)
+
 A Mongo storage module for [Botkit](https://botkit.ai) that provides a simple
 system for storing information about a `user`, a `channel`, or a `team`.
 
