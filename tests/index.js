@@ -92,5 +92,18 @@ describe('Mongo', function() {
                 collectionObj.findOneAndDelete.should.be.calledWith({id: 'walterwhite'}, cb);
             });
         });
+
+        describe(method + '.find', function() {
+            it('should pass options to find', function() {
+                var cb = sinon.stub(),
+                    options = {
+                        limit: 1
+                    };
+
+
+                Storage(config)[method].find({}, options, cb);
+                collectionObj.find.should.be.calledwith({}, options, cb);
+            });
+        });
     });
 });
