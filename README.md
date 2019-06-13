@@ -5,13 +5,16 @@
 [![npm](https://img.shields.io/npm/l/botkit-storage-mongo.svg)](https://spdx.org/licenses/MIT)
 [![bitHound Overall Score](https://www.bithound.io/github/howdyai/botkit-storage-mongo/badges/score.svg)](https://www.bithound.io/github/howdyai/botkit-storage-mongo)
 
+## This module works with [the legacy version of Botkit](https://github.com/howdyai/botkit/tree/legacy#readme)
+
 A Mongo storage module for [Botkit](https://botkit.ai) that provides a simple
 system for storing information about a `user`, a `channel`, or a `team`.
 
 This project is an extension to [Botkit Core](https://github.com/howdyai/botkit),
 a richly featured developer toolkit for building bots and conversational apps.
 
-This module conforms to [Botkit's storage plugin convention](https://github.com/howdyai/botkit/blob/master/docs/storage.md).
+This module conforms to [Botkit's storage plugin convention]
+(https://github.com/howdyai/botkit-docs/blob/master/docs/storage.md).
 
 
 ## Usage
