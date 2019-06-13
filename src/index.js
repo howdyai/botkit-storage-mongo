@@ -69,6 +69,9 @@ function getStorage(db, zone) {
         },
         delete: function(id, cb) {
             return table.findOneAndDelete({id: id}, cb);
+        },
+        count: function(data, cb) {
+            return table.count(data, cb);
         }
     };
 }
