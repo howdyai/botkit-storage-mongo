@@ -24,7 +24,7 @@ Then pass the returned storage when creating your Botkit controller. Botkit will
 
 Make sure everything you store has an `id` property, that's what you'll use to look it up later.
 
-```
+```javascript
 var Botkit = require('botkit'),
     mongoStorage = require('botkit-storage-mongo')({mongoUri: '...', tables: ['optional','list', 'of', 'custom','tables', 'to', 'add']}),
     controller = Botkit.slackbot({
@@ -32,7 +32,7 @@ var Botkit = require('botkit'),
     });
 ```
 
-```
+```javascript
 // then you can use the Botkit storage api, make sure you have an id property
 var beans = {id: 'cool', beans: ['pinto', 'garbanzo']};
 controller.storage.teams.save(beans);
@@ -44,13 +44,13 @@ controller.storage.teams.get('cool', function(error, beans){
 
 You can also get all entries from a table or find a selected set depending on a parameters.
 
-```
+```javascript
 storage.users.all(function(error, users){
     // do something with users
 });
 ```
 
-```
+```javascript
 storage.users.find({team_id: team_id}, function(error, users){
     // do something with users
 });
@@ -58,7 +58,7 @@ storage.users.find({team_id: team_id}, function(error, users){
 
 As of 1.0.6, all functions also support Promise syntax:
 
-```
+```javascript
 storage.users.all().then(function(list_of_users) {
 
   // do something
